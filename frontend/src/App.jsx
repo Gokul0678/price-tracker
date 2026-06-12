@@ -3,7 +3,7 @@ import axios from "axios"
 import ProductList from "./components/ProductList"
 import ProductDetail from "./components/ProductDetail"
 
-const API = "https://price-tracker-production-0874.up.railway.app/"
+const API = "https://price-tracker-production-0874.up.railway.app"
 
 function App() {
   const [products, setProducts] = useState([])

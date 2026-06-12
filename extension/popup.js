@@ -34,7 +34,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       btn.textContent = 'Saving...'
 
       try {
-        const res = await fetch('https://price-tracker-production-0874.up.railway.app/', {
+        const res = await fetch('https://price-tracker-production-0874.up.railway.app/products', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ url, name, site, price, currency: 'INR' })
