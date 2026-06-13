@@ -154,12 +154,14 @@ app.delete('/products/:id', async (req, res) => {
 })
 
 // Save a price alert
+// Save a price alert
 app.post('/products/:id/alerts', async (req, res) => {
   try {
     const alert = await prisma.alert.create({
       data: {
         productId: parseInt(req.params.id),
-        targetPrice: parseFloat(req.body.targetPrice)
+        targetPrice: parseFloat(req.body.targetPrice),
+        email: req.body.email || ''
       }
     })
     res.json(alert)

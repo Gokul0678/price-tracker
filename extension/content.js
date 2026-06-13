@@ -43,24 +43,40 @@ function findPrice() {
 }
 
 function findName() {
-  // Try common product name locations
+  // Try site-specific selectors first
   const selectors = [
-    'h1',
-    '[itemprop="name"]',
-    '.product-title',
-    '.pdp-title',
-    '#productTitle',
+    '#productTitle',          // Amazon - specific ID
+    '.B_NuCI',                // Flipkart
+    '.pdp-title',             // Myntra
+    'h1.pdp-e-i-head',        // Meesho
+    '[itemprop="name"]',      // Generic structured data
+    'h1.product-title',       // Generic
+    'h1',                     // Last resort - first h1
   ]
 
   for (const selector of selectors) {
     const el = document.querySelector(selector)
-    if (el && el.innerText.trim().length > 0) {
-      return el.innerText.trim().substring(0, 100)
+    if (el) {
+      const text = el.innerText.trim()
+      // Make sure it's a real product name (not too short, not too long)
+      if (text.length > 5 && text.length < 300) {
+        return text.substring(0, 150)
+      }
     }
   }
 
-  return document.title || 'Unknown Product'
+  return document.title.split('|')[0].trim() || 'Unknown Product'
 }
+
+//   for (const selector of selectors) {
+//     const el = document.querySelector(selector)
+//     if (el && el.innerText.trim().length > 0) {
+//       return el.innerText.trim().substring(0, 100)
+//     }
+//   }
+
+//   return document.title || 'Unknown Product'
+// }
 
 function getSite(url) {
   try {

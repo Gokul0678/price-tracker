@@ -31,6 +31,7 @@ function ProductDetail({ product, api }) {
   const [loading, setLoading] = useState(true)
   const [alertPrice, setAlertPrice] = useState("")
   const [alertSaved, setAlertSaved] = useState(false)
+  const [alertEmail, setAlertEmail] = useState("")
 
   useEffect(() => {
     fetchHistory()
@@ -51,7 +52,8 @@ function ProductDetail({ product, api }) {
     if (!alertPrice) return
     try {
       await axios.post(api + "/products/" + product.id + "/alerts", {
-        targetPrice: parseFloat(alertPrice)
+  targetPrice: parseFloat(alertPrice),
+  email: alertEmail
       })
       setAlertSaved(true)
       setAlertPrice("")
@@ -194,37 +196,49 @@ function ProductDetail({ product, api }) {
             Alert saved! You will be notified when the price drops.
           </div>
         ) : (
-          <div style={{ display: "flex", gap: "8px" }}>
-            <input
-              type="number"
-              placeholder="Enter target price e.g. 45"
-              value={alertPrice}
-              onChange={function(e) { setAlertPrice(e.target.value) }}
-              style={{
-                flex: 1,
-                padding: "10px 12px",
-                border: "1px solid #e2e8f0",
-                borderRadius: "8px",
-                fontSize: "13px",
-                outline: "none"
-              }}
-            />
-            <button
-              onClick={saveAlert}
-              style={{
-                padding: "10px 20px",
-                background: "#2563eb",
-                color: "white",
-                border: "none",
-                borderRadius: "8px",
-                fontSize: "13px",
-                fontWeight: 500,
-                cursor: "pointer"
-              }}
-            >
-              Set Alert
-            </button>
-          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+  <input
+    type="number"
+    placeholder="Enter target price e.g. 45"
+    value={alertPrice}
+    onChange={function(e) { setAlertPrice(e.target.value) }}
+    style={{
+      padding: "10px 12px",
+      border: "1px solid #e2e8f0",
+      borderRadius: "8px",
+      fontSize: "13px",
+      outline: "none"
+    }}
+  />
+  <input
+    type="email"
+    placeholder="Your email to get notified"
+    value={alertEmail}
+    onChange={function(e) { setAlertEmail(e.target.value) }}
+    style={{
+      padding: "10px 12px",
+      border: "1px solid #e2e8f0",
+      borderRadius: "8px",
+      fontSize: "13px",
+      outline: "none"
+    }}
+  />
+  <button
+    onClick={saveAlert}
+    style={{
+      padding: "10px 20px",
+      background: "#2563eb",
+      color: "white",
+      border: "none",
+      borderRadius: "8px",
+      fontSize: "13px",
+      fontWeight: 500,
+      cursor: "pointer"
+    }}
+  >
+    Set Alert
+  </button>
+</div>
         )}
       </div>
       <ChatWidget product={product} api={api} />

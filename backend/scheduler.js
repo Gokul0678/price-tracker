@@ -1,6 +1,7 @@
 const cron = require('node-cron')
 const { PrismaClient } = require('@prisma/client')
 const { scrapePrice } = require('./scraper')
+const { sendPriceAlert } = require('./mailer')
 
 const prisma = new PrismaClient()
 
@@ -39,15 +40,26 @@ async function scrapeAllProducts() {
       })
 
       for (const alert of alerts) {
-        if (price <= alert.targetPrice) {
-          console.log(`🔔 Alert triggered for ${product.name}! Price dropped to ${price}`)
-          // Mark alert as notified
-          await prisma.alert.update({
-            where: { id: alert.id },
-            data: { notified: true }
-          })
-        }
-      }
+  if (price <= alert.targetPrice) {
+    console.log(`🔔 Alert triggered for ${product.name}! Price dropped to ${price}`)
+    
+    // Send email if user provided one
+    if (alert.email) {
+      await sendPriceAlert({
+        productName: product.name,
+        currentPrice: price,
+        targetPrice: alert.targetPrice,
+        productUrl: product.url,
+        toEmail: alert.email
+      })
+    }
+
+    await prisma.alert.update({
+      where: { id: alert.id },
+      data: { notified: true }
+    })
+  }
+}
 
       console.log(`✅ ${product.name}: ${price}`)
     } else {
