@@ -59,7 +59,7 @@ function ChatWidget({ product, api }) {
             AI Shopping Assistant
           </div>
           <div style={{ color: "rgba(255,255,255,0.7)", fontSize: "11px" }}>
-            Powered by Gemini
+             Powered by Groq AI
           </div>
         </div>
       </div>
