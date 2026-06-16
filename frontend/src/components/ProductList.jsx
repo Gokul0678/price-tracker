@@ -12,6 +12,9 @@ function ProductCard({ product, onSelect, onDelete }) {
       padding: "20px",
       cursor: "pointer",
       transition: "box-shadow 0.2s",
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
     }}
       onMouseEnter={e => e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.1)"}
       onMouseLeave={e => e.currentTarget.style.boxShadow = "none"}
@@ -35,7 +38,8 @@ function ProductCard({ product, onSelect, onDelete }) {
         fontWeight: 600,
         color: "#1e293b",
         marginBottom: "12px",
-        lineHeight: 1.4
+        lineHeight: 1.4,
+        flexGrow: 1,
       }}>
         {product.name}
       </div>
@@ -130,7 +134,8 @@ function ProductList({ products, onSelect, onRefresh }) {
       <div style={{
         display: "grid",
         gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-        gap: "16px"
+        gap: "16px",
+        alignItems: "stretch"
       }}>
         {products.map(product => (
           <ProductCard
