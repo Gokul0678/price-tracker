@@ -96,7 +96,7 @@ function ProductList({ products, onSelect, onRefresh }) {
   async function handleDelete(id) {
     if (!window.confirm("Stop tracking this product?")) return
     try {
-      await axios.delete(`http://localhost:3000/products/${id}`)
+      await axios.delete(`https://price-tracker-production-0874.up.railway.app/products/${id}`)
       onRefresh()
     } catch (e) {
       alert("Could not delete product")
